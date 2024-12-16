@@ -15,7 +15,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-Auth = "./etc/secrets/norse-lotus-423606-i2-353a26d9cd49.json"
+Auth = "./norse-lotus-423606-i2-353a26d9cd49.json"
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = Auth
 scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
