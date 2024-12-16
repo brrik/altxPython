@@ -41,3 +41,20 @@ async def getData():
         return return_data
     except:
         return False
+    
+@app.get("/getrolldata/{roll}")
+async def getRollData(roll):
+    try:
+        main_data = mainSheet.get_all_values()
+        roll_based_list = filter_by_roll(main_data,roll)
+        return roll_based_list
+    except:
+        return False
+
+def filter_by_roll(data,roll):
+    return_list = []
+    for i in data:
+        if data[i][1] == roll:
+            return_list.append(data[i])
+    
+    return return_list
