@@ -1,7 +1,7 @@
 import os
 import gspread
 import datetime
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from starlette.middleware.cors import CORSMiddleware # CORS
 from oauth2client.service_account import ServiceAccountCredentials
 
@@ -15,7 +15,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-Auth = "./norse-lotus-423606-i2-353a26d9cd49.json"
+Auth = "../norse-lotus-423606-i2-353a26d9cd49.json"
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = Auth
 scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
@@ -25,10 +25,13 @@ Client = gspread.authorize(credentials)
 SpreadSheet = Client.open_by_key("1eTYSRjB5TpIXwJQVCFCn8V32wZ_kPK1etwqgvaEa5Oo")
 mainSheet = SpreadSheet.worksheet("Main")
 
-@app.get("/get/{roll}/{data}")
-async def addRow(roll, data):
+@app.post("/postdata/")
+async def addRow(request: Request):
     try:
         now = datetime.datetime.now().strftime('%Y年%m月%d日 %H:%M:%S')
+        json_data = await request.json()
+        roll = json_data.get("roll")
+        data  = json_data.get("data")
         mainSheet.append_row([now, roll, data])
         return True
     except:
