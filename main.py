@@ -49,7 +49,7 @@ async def getData():
 async def getRollData(roll):
     try:
         roll_dict = {
-            "sh":"部長",
+            "sh":"社長",
             "jb":"事業部長",
             "bc":"部長",
             "kc":"課長",
