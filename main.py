@@ -48,8 +48,16 @@ async def getData():
 @app.get("/getrolldata/{roll}")
 async def getRollData(roll):
     try:
+        roll_dict = {
+            "sh":"部長",
+            "jb":"事業部長",
+            "bc":"部長",
+            "kc":"課長",
+            "gl":"GL"
+            }
         main_data = mainSheet.get_all_values()
-        roll_based_list = filter_by_roll(main_data,roll)
+        print(roll_dict[roll])
+        roll_based_list = filter_by_roll(main_data,roll_dict[roll])
         return roll_based_list
     except:
         return False
@@ -57,7 +65,7 @@ async def getRollData(roll):
 def filter_by_roll(data,roll):
     return_list = []
     for i in data:
-        if data[i][1] == roll:
-            return_list.append(data[i])
+        if i[1] == roll:
+            return_list.append(i)
     
     return return_list
