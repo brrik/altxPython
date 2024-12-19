@@ -54,7 +54,8 @@ async def getRollData(roll):
             "jb":"事業部長",
             "bc":"部長",
             "kc":"課長",
-            "gl":"GL"
+            "gl":"GL",
+            "ot":"その他"
             }
         main_data = mainSheet.get_all_values()
         print(roll_dict[roll])
