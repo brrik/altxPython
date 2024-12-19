@@ -24,11 +24,12 @@ Client = gspread.authorize(credentials)
 
 SpreadSheet = Client.open_by_key("1eTYSRjB5TpIXwJQVCFCn8V32wZ_kPK1etwqgvaEa5Oo")
 mainSheet = SpreadSheet.worksheet("Main")
+userDataSheet = SpreadSheet.worksheet("UserData")
 
 @app.post("/postdata/")
 async def addRow(request: Request):
     try:
-        now = datetime.datetime.now().strftime('%Y年%m月%d日 %H:%M:%S')
+        now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y年%m月%d日 %H:%M:%S')
         json_data = await request.json()
         roll = json_data.get("roll")
         data  = json_data.get("data")
@@ -59,6 +60,29 @@ async def getRollData(roll):
         print(roll_dict[roll])
         roll_based_list = filter_by_roll(main_data,roll_dict[roll])
         return roll_based_list
+    except:
+        return False
+
+@app.get("/login/{user_name}/{password}")
+def checkLogin(user_name,password):
+    try:
+        user_datas = userDataSheet.get_all_values()
+        for data in user_datas:
+            if data[0] == user_name and data[1] == password:
+                return data[2]
+        else:
+            return False
+    except:
+        return False
+
+@app.post("/login/adduser/")
+def addUserData(request: Request):
+    try:
+        json_data = request.json()
+        user_id = json_data.get("userid")
+        user_pass = json_data.get("pass")
+        user_roll = json_data.get("roll")
+        userDataSheet.append_row([user_id,user_pass,user_roll])
     except:
         return False
 
