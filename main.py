@@ -50,11 +50,11 @@ async def getData():
 async def getRollData(roll):
     try:
         roll_dict = {
-            "sh":"社長",
-            "jb":"事業部長",
-            "bc":"部長",
-            "kc":"課長",
-            "gl":"GL",
+            "sh":["社長","事業部長","部長","課長","GL","その他"],
+            "jb":["事業部長","部長","課長","GL","その他"],
+            "bc":["部長","課長","GL","その他"],
+            "kc":["課長","GL","その他"],
+            "gl":["GL","その他"],
             "ot":"その他"
             }
         main_data = mainSheet.get_all_values()
@@ -90,7 +90,7 @@ def addUserData(request: Request):
 def filter_by_roll(data,roll):
     return_list = []
     for i in data:
-        if i[1] == roll:
+        if i[1] in roll:
             return_list.append(i)
     
     return return_list
