@@ -31,9 +31,17 @@ async def addRow(request: Request):
     try:
         now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9))).strftime('%Y年%m月%d日 %H:%M:%S')
         json_data = await request.json()
+
         roll = json_data.get("roll")
         data  = json_data.get("data")
-        mainSheet.append_row([now, roll, data])
+        sentiment = json_data.get("sentiment")
+        sentiment_score_spnegative = json_data.get("sentiment_score_spnegative")
+        sentiment_score_negative = json_data.get("sentiment_score_negative")
+        sentiment_score_neutral = json_data.get("sentiment_score_neutral")
+        sentiment_score_positive = json_data.get("sentiment_score_positive")
+        sentiment_score_sppositive = json_data.get("sentiment_score_sppositive")
+
+        mainSheet.append_row([now, roll, data, sentiment, sentiment_score_spnegative, sentiment_score_negative, sentiment_score_neutral, sentiment_score_positive, sentiment_score_sppositive])
         return True
     except:
         return False
