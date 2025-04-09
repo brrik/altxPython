@@ -78,6 +78,7 @@ async def checkLogin(user_name,password):
         user_datas = userDataSheet.get_all_values()
         for data in user_datas:
             if data[0] == user_name and data[1] == password:
+                print(data[2])
                 return data[2]
         else:
             return False
